@@ -2,6 +2,7 @@ package com.crawljax.browser;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -301,13 +302,10 @@ public final class WebDriverBackedEmbeddedBrowser implements EmbeddedBrowser {
 		switch (eventable.getEventType()) {
 			case click:
 				try {
+					handleAuthenticationWindow();
 					webElement.click();
-					
-					try{
-						browser.switchTo().alert().dismiss();
-					}
-					catch(Exception noAlertFound){ /*do nothing*/ }  
-	
+					handleDownloads(webElement);
+					handleAuthenticationWindow();
 				} catch (ElementNotVisibleException e) {
 					throw e;
 				} catch (WebDriverException e) {
@@ -332,6 +330,42 @@ public final class WebDriverBackedEmbeddedBrowser implements EmbeddedBrowser {
 		return true;
 	}
 
+	/* Closes any alert windows, especially authentication, if they occur */
+	private void handleAuthenticationWindow()
+	{
+		try{
+			browser.switchTo().alert().dismiss();
+		}
+		catch(Exception noAlertFound){ /*Do nothing*/}	
+	}
+	
+	/* Closes any download pop up windows */
+	private void handleDownloads(WebElement webElement)
+	{
+		//Parse the href link to get the filename, assuming it is a download link
+		try{
+			String currentWindow = browser.getTitle();
+			String link = webElement.getAttribute("href");
+			String parsedStr[] = link.split("/");
+			String DownloadName = parsedStr[parsedStr.length - 1];
+
+			//Make sure it filename and not the current window name
+			if(!currentWindow.equals("Opening " + DownloadName))
+			{
+				try{		
+					String commands[] = new String[]{System.getProperty("user.dir") + "\\closeDownloads.exe",
+							"Opening " + DownloadName};
+					Runtime.getRuntime().exec(commands);	
+
+				}catch(IOException scriptNotFound){
+					System.err.println("Error: closeDownloads.exe not found");
+				}
+
+			}
+		}
+		catch(NullPointerException ex){/* no need to do anything */}
+	}
+	
 	@Override
 	public void close() {
 		LOGGER.info("Closing the browser...");
