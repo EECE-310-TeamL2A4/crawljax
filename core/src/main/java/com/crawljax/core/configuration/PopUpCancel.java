@@ -15,14 +15,14 @@ public class PopUpCancel{
 	private final static String CLOSE_AUTHENTICATION = "AUTHENTICATION";
 	private final static String CLOSE_DOWNLOAD = "DOWNLOAD";
 	private static int timerPeriod = 500;
-	private static String fileNameFirefox = "closePopUps.exe";
-	private static String fileNameChrome = "closePopUpsChrome.exe";
+	private static String fileName = "closePopUps.exe";
 	private static String mode = CLOSE_ALL;
 	private static String exePath = PopUpCancel.class.getProtectionDomain().getCodeSource().
-										getLocation().getPath() + fileNameFirefox;
+										getLocation().getPath() + fileName;
 	
 	//unique identifier for firefox dialog boxes
 	private final static String fireFoxDialogID = "ahk_class MozillaDialogClass"; 
+	private final static String ChromeDialogID = "ahk_class #32770";
 
 
 	/** User selects what to cancel, unless file was not found
@@ -75,20 +75,35 @@ public class PopUpCancel{
 	 */
 	private static String getPopUpTitle() {
 	
-		String type = fireFoxDialogID;
+		String windowID = fireFoxDialogID;;
+		String windowName =  "Opening";
+		
+		 
+		switch(browserType){
+		case chrome:
+			windowID = ChromeDialogID;
+			windowName = "Save As";
+			break;
+		case firefox:
+			windowID = fireFoxDialogID;
+			windowName = "Opening";
+			break;
+		}
+		
+		
 		
 		switch(mode)
 		{
 		case(CLOSE_ALL):
 			break;
 		case(CLOSE_AUTHENTICATION):
-			type = "Authentication Required" + " " + fireFoxDialogID;
+			windowID = "Authentication Required" + " " + windowID;
 			break;
 		case(CLOSE_DOWNLOAD):
-			type = "Opening" + " " + fireFoxDialogID;
+			windowID = windowName + " " + windowID;
 			break;		
 		}
-		return type;
+		return windowID;
 	}
 
 
@@ -105,20 +120,10 @@ public class PopUpCancel{
 
 	}
 	
-	public static void setExePath()
-	{
-		if( browserType.equals(BrowserType.chrome) )
-			exePath = PopUpCancel.class.getProtectionDomain().getCodeSource().getLocation().getPath() + fileNameChrome;
-		else if( browserType.equals(BrowserType.firefox) )
-			exePath = PopUpCancel.class.getProtectionDomain().getCodeSource().getLocation().getPath() + fileNameFirefox;
-		else
-			exePath = PopUpCancel.class.getProtectionDomain().getCodeSource().getLocation().getPath() + fileNameFirefox;		
-	}
 	
 	public static void setBrowserType(BrowserType ibrowserType)
 	{
 		browserType = ibrowserType;
-		setExePath();
 	}
 	
 	public static String getFilePath()
