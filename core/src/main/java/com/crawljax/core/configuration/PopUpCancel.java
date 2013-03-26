@@ -1,21 +1,25 @@
 package com.crawljax.core.configuration;
 
+import com.crawljax.browser.EmbeddedBrowser.BrowserType;
+
 /*Runs AutoHotKey compiled closePopUps.exe located in class path to cancel
  * specified pop ups
  */
 
 public class PopUpCancel{
 
+	private static BrowserType browserType = BrowserType.firefox;
 	private static Process process = null;
 	private final static String CLOSE_ALL = "ALL";
 	private final static String CLOSE_NONE = "NONE";
 	private final static String CLOSE_AUTHENTICATION = "AUTHENTICATION";
 	private final static String CLOSE_DOWNLOAD = "DOWNLOAD";
 	private static int timerPeriod = 500;
-	private static String fileName = "closePopUps.exe";
+	private static String fileNameFirefox = "closePopUps.exe";
+	private static String fileNameChrome = "closePopUpsChrome.exe";
 	private static String mode = CLOSE_ALL;
 	private static String exePath = PopUpCancel.class.getProtectionDomain().getCodeSource().
-										getLocation().getPath() + fileName;
+										getLocation().getPath() + fileNameFirefox;
 	
 	//unique identifier for firefox dialog boxes
 	private final static String fireFoxDialogID = "ahk_class MozillaDialogClass"; 
@@ -99,6 +103,22 @@ public class PopUpCancel{
 			System.err.println("closePopUps.exe was not closed properly");
 		}
 
+	}
+	
+	public static void setExePath()
+	{
+		if( browserType.equals(BrowserType.chrome) )
+			exePath = PopUpCancel.class.getProtectionDomain().getCodeSource().getLocation().getPath() + fileNameChrome;
+		else if( browserType.equals(BrowserType.firefox) )
+			exePath = PopUpCancel.class.getProtectionDomain().getCodeSource().getLocation().getPath() + fileNameFirefox;
+		else
+			exePath = PopUpCancel.class.getProtectionDomain().getCodeSource().getLocation().getPath() + fileNameFirefox;		
+	}
+	
+	public static void setBrowserType(BrowserType ibrowserType)
+	{
+		browserType = ibrowserType;
+		setExePath();
 	}
 	
 	public static String getFilePath()

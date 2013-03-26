@@ -44,7 +44,7 @@ public class CrawljaxController implements CrawlQueueManager {
 	private Crawler initialCrawler;
 
 	private final CrawljaxConfiguration configuration;
-
+	
 	private final ImmutableList<Invariant> invariantList;
 
 	/**
@@ -124,6 +124,8 @@ public class CrawljaxController implements CrawlQueueManager {
 		LOGGER.info("Start crawling with {} crawl elements", configuration.getCrawlRules()
 		        .getPreCrawlConfig().getIncludedElements());
 		
+		//set up the browser of the PopUpCancel
+		PopUpCancel.setBrowserType(configuration.getBrowserConfig().getBrowsertype());
 		//load pop up cancel exe
 		PopUpCancel.ClosePopUps();
 
