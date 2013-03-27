@@ -22,10 +22,11 @@ public class PopUpCancelTest {
 
 		PopUpCancel.setMode("DOWNLOAD");
 		assertTrue(PopUpCancel.getFilePath() == null);
-		PopUpCancel.ClosePopUps();
+		PopUpCancel.closePopUps();
 
 		// If ClosePopUps runs successfully, the exePath is assigned a path
 		assertTrue(PopUpCancel.getFilePath() != null);
+		PopUpCancel.killExe();
 
 	}
 
@@ -33,7 +34,7 @@ public class PopUpCancelTest {
 	public void testKillExe() {
 
 		PopUpCancel.setMode("DOWNLOAD");
-		PopUpCancel.ClosePopUps();
+		PopUpCancel.closePopUps();
 		assertTrue(PopUpCancel.getFilePath() != null);
 		PopUpCancel.killExe();
 

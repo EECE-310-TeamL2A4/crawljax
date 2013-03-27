@@ -9,14 +9,8 @@ import com.crawljax.core.configuration.InputSpecification;
 
 public class SimplePopUpCancelExample
 {
-<<<<<<< HEAD:examples/src/main/java/com/crawljax/examples/myCrawl.java
-	//private static final String URL = "http://gkh501.com/noDownload.html";
-	//private static final String URL = "http://www.w3schools.com/js/tryit.asp?filename=tryjs_alert";
-	private static final String URL = "http://courses.ece.ubc.ca/315/luisindex.html";
-=======
 	private static final String URL0 = "http://gkh501.com/Download.html";
 	private static final String URL1 = "http://courses.ece.ubc.ca/315/luisindex.html";
->>>>>>> 1b28adb04bcc1edae5bc7750d91fd7bb5fab9b41:examples/src/main/java/com/crawljax/examples/SimplePopUpCancelExample.java
 
 	private static final String ALL_ANCHORS = "a";
 	private static final String LANGUAGE_TOOLS = "Language Tools";
