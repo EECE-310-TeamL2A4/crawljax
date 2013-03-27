@@ -1,6 +1,8 @@
 package com.crawljax.examples;
 
+import com.crawljax.browser.EmbeddedBrowser.BrowserType;
 import com.crawljax.core.CrawljaxController;
+import com.crawljax.core.configuration.BrowserConfiguration;
 import com.crawljax.core.configuration.CrawljaxConfiguration;
 import com.crawljax.core.configuration.CrawljaxConfiguration.CrawljaxConfigurationBuilder;
 import com.crawljax.core.configuration.InputSpecification;
@@ -43,6 +45,8 @@ public class SimplePopUpCancelExample
 		// limit the crawling scope
 		//builder.crawlRules().setCancelPopUps("NONE");
 		//builder.crawlRules().setPopUpTimer(5000);
+		BrowserConfiguration browserConfig = new BrowserConfiguration(BrowserType.chrome);
+		builder.setBrowserConfig(browserConfig);
 		builder.setMaximumStates(MAX_STATES);
 		builder.setMaximumDepth(MAX_CRAWL_DEPTH);
 		builder.crawlRules().setInputSpec(getInputSpecification());
