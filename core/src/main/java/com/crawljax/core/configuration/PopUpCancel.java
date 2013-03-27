@@ -25,17 +25,17 @@ public class PopUpCancel{
 	private final static String CLOSE_NONE = "NONE";
 	private final static String CLOSE_AUTHENTICATION = "AUTHENTICATION";
 	private final static String CLOSE_DOWNLOAD = "DOWNLOAD";
-	private final static String DOES_NOT_EXIST = null;
 	
 	private static BrowserType browserType = BrowserType.firefox;
 	private static Process process = null;
 	private static File temporaryExe = null;
 	private static int killProcessTimeOut = 500;
 	private static int timerPeriod = 500;
-	private static String fileName = "closePopUps.exe";
+	private static String fileName = "/closePopUps.exe";
 	private static String mode = CLOSE_ALL;
-	private static String exePath = PopUpCancel.class.getProtectionDomain().getCodeSource().
-			getLocation().getPath() + fileName;
+	private static String exePath = null;
+			
+	//PopUpCancel.class.getProtectionDomain().getCodeSource().getLocation().getPath() + fileName;
 
 
 	/** Create temporary file to store exe file into using streams
@@ -101,7 +101,7 @@ public class PopUpCancel{
 			
 			try{
 				
-				if(exePath == DOES_NOT_EXIST) 
+				if(exePath == null) 
 					exePath = getPopUpCancelExe();
 				
 				//The window class ID and title name is passed as parameters to the exe
@@ -109,7 +109,7 @@ public class PopUpCancel{
 				process = Runtime.getRuntime().exec(commands);
 
 			} catch (Exception ex) {
-				System.err.println("Error closePopUps.exe not found. PopUpCancel disabled");
+				System.err.println("Error" + fileName + " not found. PopUpCancel disabled");
 				mode = CLOSE_NONE;
 			}
 		}
@@ -177,7 +177,10 @@ public class PopUpCancel{
 			if(process != null)
 			{
 				process.destroy();
-				process.waitFor();
+				Thread thread = (new Thread(new ProcessCleanUp(process)));
+				thread.start();
+				thread.join(killProcessTimeOut);
+				
 				if(!temporaryExe.delete()){
 					System.err.println("PopUpCanceler clean up failed (temp file was not deleted");
 				}
@@ -192,6 +195,25 @@ public class PopUpCancel{
 		}
 	}
 
+	private static class ProcessCleanUp implements Runnable
+	{
+		Process process;
+		
+		public ProcessCleanUp(Process process)
+		{
+			this.process= process;
+		}
+		
+		@Override
+		public void run() {
+			try {
+				this.process.waitFor();
+			} catch (InterruptedException e) {
+				System.err.println(fileName + " did not gracefully exit");
+			}
+		}
+		
+	}
 	
 
 }
