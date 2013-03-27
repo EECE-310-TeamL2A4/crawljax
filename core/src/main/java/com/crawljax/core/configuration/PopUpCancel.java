@@ -37,8 +37,6 @@ public class PopUpCancel {
 	private static String mode = CLOSE_ALL;
 	private static String exePath = null;
 
-	// PopUpCancel.class.getProtectionDomain().getCodeSource().getLocation().getPath() + fileName;
-
 	/**
 	 * Create temporary file to store exe file into using streams
 	 * 
@@ -135,9 +133,9 @@ public class PopUpCancel {
 	private static String getPopUpTitle() {
 
 		String windowID = fireFoxDialogID;
-		;
 		String windowName = fireFoxWindowName;
 
+		// set Window Class ID for browser type
 		switch (browserType) {
 			case chrome:
 				windowID = ChromeDialogID;
@@ -149,6 +147,7 @@ public class PopUpCancel {
 				break;
 		}
 
+		// Set arguments for exe to close based on mode selected
 		switch (mode)
 		{
 			case (CLOSE_ALL):
