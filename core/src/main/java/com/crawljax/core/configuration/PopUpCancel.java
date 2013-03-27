@@ -20,6 +20,9 @@ public class PopUpCancel{
 	//unique identifier for firefox dialog boxes
 	private final static String fireFoxDialogID = "ahk_class MozillaDialogClass"; 
 	private final static String ChromeDialogID = "ahk_class #32770";
+	
+	private final static String fireFoxWindowName = "Save As";
+	private final static String ChromeWindowName = "Opening";
 
 	private final static String CLOSE_ALL = "ALL";
 	private final static String CLOSE_NONE = "NONE";
@@ -124,19 +127,18 @@ public class PopUpCancel{
 	 * @return
 	 */
 	private static String getPopUpTitle() {
-
 		String windowID = fireFoxDialogID;;
-		String windowName =  "Opening";
+		String windowName =  fireFoxWindowName;
 
 		switch(browserType){
 		case chrome:
 			windowID = ChromeDialogID;
-			windowName = "Save As";
+			windowName = ChromeWindowName;
 			break;
 		case firefox:
 			windowID = fireFoxDialogID;
-			windowName = "Opening";
-			break;
+			windowName = fireFoxWindowName;
+			break;		
 		}
 
 
