@@ -304,8 +304,11 @@ public final class WebDriverBackedEmbeddedBrowser implements EmbeddedBrowser {
 				try {
 					handleAuthenticationWindow();
 					webElement.click();
+<<<<<<< HEAD
 					handleDownloads(webElement);
 					handleAuthenticationWindow();
+=======
+>>>>>>> 1b28adb04bcc1edae5bc7750d91fd7bb5fab9b41
 				} catch (ElementNotVisibleException e) {
 					throw e;
 				} catch (WebDriverException e) {
