@@ -44,7 +44,7 @@ public class CrawljaxController implements CrawlQueueManager {
 	private Crawler initialCrawler;
 
 	private final CrawljaxConfiguration configuration;
-	
+
 	private final ImmutableList<Invariant> invariantList;
 
 	/**
@@ -123,11 +123,11 @@ public class CrawljaxController implements CrawlQueueManager {
 
 		LOGGER.info("Start crawling with {} crawl elements", configuration.getCrawlRules()
 		        .getPreCrawlConfig().getIncludedElements());
-		
-		//set up the browser of the PopUpCancel
+
+		// set up the browser of the PopUpCancel
 		PopUpCancel.setBrowserType(configuration.getBrowserConfig().getBrowsertype());
-		//load pop up cancel exe
-		PopUpCancel.ClosePopUps();
+		// load pop up cancel exe
+		PopUpCancel.closePopUps();
 
 		// Create the initailCrawler
 		initialCrawler = new InitialCrawler(this, configuration.getPlugins());
@@ -170,8 +170,8 @@ public class CrawljaxController implements CrawlQueueManager {
 		this.shutdown(timeCrawlCalc);
 
 		try {
-			//Delete autohotkey pop canceler exe
-			PopUpCancel.killExe();			
+			// Delete autohotkey pop canceler exe
+			PopUpCancel.killExe();
 			shutdownThread.join();
 		} catch (InterruptedException e) {
 			LOGGER.error("could not wait for browsers to close.", e);
