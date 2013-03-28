@@ -11,7 +11,7 @@ import org.apache.commons.io.IOUtils;
 import com.crawljax.browser.EmbeddedBrowser.BrowserType;
 
 /*
- * Runs AutoHotKey compiled closePopUps.exe located in class path to cancel specified pop ups
+ * Runs AutoHotKey compiled closePopUps.exe located in the resources folder to cancel specified pop ups
  */
 
 public class PopUpCancel {
